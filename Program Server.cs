@@ -10,8 +10,8 @@ class Server
     {
         Console.WriteLine("Please enter the IP network:");
         string IPNetwork = Console.ReadLine();
-        // Thiết lập địa chỉ IP và cổng
-        IPAddress ipAddress = IPAddress.Parse(IPNetwork); // Địa chỉ loopback (localhost)
+        
+        IPAddress ipAddress = IPAddress.Parse(IPNetwork);
         Console.WriteLine("Please enter port network:");
         string PortNetwork = Console.ReadLine();
         string port = PortNetwork;
