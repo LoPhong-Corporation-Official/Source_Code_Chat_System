@@ -9,11 +9,19 @@ class Client
     {
         try
         {
-            IPAddress ipAddress = IPAddress.Parse("192.168.1.4");
-            int port = 50795;
+           Console.WriteLine("Please enter the IP network:");
+            string IPNetwork = Console.ReadLine();
+        
+            IPAddress ipAddress = IPAddress.Parse(IPNetwork);
+            Console.WriteLine("Please enter port network:");
+            string PortNetwork = Console.ReadLine();
+           
+            int port1 = int.Parse(PortNetwork);
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.Title = "LoPhong Corporation - System chat";
 
             TcpClient clientSocket = new TcpClient();
-            clientSocket.Connect(ipAddress, port);
+            clientSocket.Connect(ipAddress, port1);
             NetworkStream networkStream = clientSocket.GetStream();
 
             while (true)
