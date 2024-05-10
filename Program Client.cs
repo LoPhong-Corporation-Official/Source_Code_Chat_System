@@ -1,44 +1,45 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-
-class Client
+class Program
 {
     static void Main(string[] args)
     {
         try
         {
-           Console.WriteLine("Please enter the IP network:");
+
+            // Create a form to enter information
+            Console.WriteLine("Please enter your nickname:");
+            Console.BackgroundColor = ConsoleColor.Red;
+            string Nickname  = Console.ReadLine();
+            Console.Title = "Client of " + Nickname;
+            Console.WriteLine("Hello " + Nickname + "!"); 
+            Console.BackgroundColor = ConsoleColor.Black;
+            
+            Console.WriteLine("Please enter your IP network:");
             string IPNetwork = Console.ReadLine();
-        
-            IPAddress ipAddress = IPAddress.Parse(IPNetwork);
-            Console.WriteLine("Please enter port network:");
-            string PortNetwork = Console.ReadLine();
-           
-            int port1 = int.Parse(PortNetwork);
-            Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.Title = "LoPhong Corporation - System chat";
-
+            
+            Console.WriteLine("Please enter your port network:");
+            string port = Console.ReadLine();
+            
+            int PortNetwork = int.Parse(port);
             TcpClient clientSocket = new TcpClient();
-            clientSocket.Connect(ipAddress, port1);
+            clientSocket.Connect(IPNetwork, PortNetwork);
             NetworkStream networkStream = clientSocket.GetStream();
-
-            while (true)
+            
+                while (true)
             {
-                Console.WriteLine("Enter data to send to Server:");
-                string message = Console.ReadLine();
-
-                byte[] sendBytes = Encoding.ASCII.GetBytes(message + "$");
-                networkStream.Write(sendBytes, 0, sendBytes.Length);
+                Console.WriteLine("Enter message to send to server:");
+                string ClientResponse = Console.ReadLine();
+                byte[] sendbytes = Encoding.ASCII.GetBytes(ClientResponse + "$");
+                networkStream.Write(sendbytes, 0, sendbytes.Length);
                 networkStream.Flush();
-
                 byte[] bytesFrom = new byte[clientSocket.ReceiveBufferSize];
-                int bytesRead = networkStream.Read(bytesFrom, 0, clientSocket.ReceiveBufferSize);
-                string dataFromServer = Encoding.ASCII.GetString(bytesFrom, 0, bytesRead);
-                Console.WriteLine("Server response:" + dataFromServer);
+                int byteread = networkStream.Read(bytesFrom, 0, clientSocket.ReceiveBufferSize);
+                string DataFromServer = Encoding.ASCII.GetString(bytesFrom,0, byteread);    
+                Console.WriteLine("Server responses: " + DataFromServer);
             }
-
             clientSocket.Close();
         }
         catch (Exception ex)
